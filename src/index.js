@@ -22,7 +22,7 @@ class App extends React.Component {
 
   // React says we have to define render!! Otherwise, it'll get angry
   render() {
-    return <div><b>Latitude:</b> {this.state.lat}</div>
+    return <div><b>Latitude:</b> { this.state.lat === null ? 'Loading...' : this.state.lat }</div>
   }
 }
 
