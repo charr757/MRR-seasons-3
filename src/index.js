@@ -8,21 +8,29 @@ class App extends React.Component {
   constructor(props) {
     super(props); // reference to the parents constructor function
 
-    this.state = { lat: null };
+    this.state = { lat: null, errorMessage: '' };
 
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({ lat: position.coords.latitude });
       },
       (err) => {
-        this.setState({ lat: 'There was an error, please try again.' });
+        this.setState({ errorMessage: err.message });
       }
     );
   }
 
   // React says we have to define render!! Otherwise, it'll get angry
   render() {
-    return <div><b>Latitude:</b> { this.state.lat === null ? 'Loading...' : this.state.lat }</div>
+    if (this.state.errorMessage && !this.state.lat) {
+      return <div><b>Error:</b> {this.state.errorMessage}</div>
+    }
+
+    if (!this.state.errorMessage && this.state.lat) {
+      return <div><b>Latitude:</b> {this.state.lat}</div>
+    }
+
+    return <div><b>Loading...</b></div>
   }
 }
 
